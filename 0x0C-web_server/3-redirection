@@ -1,22 +1,21 @@
 #!/usr/bin/env bash
 # redirection
 
-apt-get -y update
-apt-get -y install nginx
-sudo service nginx start
+apt-get update
+apt-get install -y nginx
 
-sudo chmod 777 /var/www/html/index.nginx-debian.html
-echo 'Hello World!' > /var/www/html/index.nginx-debian.html
-
+mkdir /etc/nginx/html
+touch /etc/nginx/html/index.html
+echo "Hello World!" > /etc/nginx/html/index.html
 printf %s "server {
-        listen 80;
-        listen [::]:80 default_server;
-        root /etc/nginx/html
-        index index.html index.htm;
+    listen 80;
+    listen [::]:80 default_server;
+    root   /etc/nginx/html;
+    index  index.html index.htm;
 
-        location /redirect_me {
-                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4/;
-        }
+    location /redirect_me {
+        return 301 http://youtube.com/watch?v=QH2-TGUlwu4;
+    }
 }" > /etc/nginx/sites-available/default
 
 service nginx restart
